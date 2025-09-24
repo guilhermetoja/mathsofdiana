@@ -34,7 +34,7 @@ const Character = ({
     <motion.div
       className={getCharacterStyles()}
       animate={{
-        x: isAttacking ? (isDiana ? 50 : -50) : 0,
+        x: isAttacking ? (isDiana ? 200 : -200) : 0,
         scale: isTakingDamage ? 1.1 : 1,
       }}
       transition={{

@@ -7,16 +7,16 @@ const GameOverScreen = ({ onRestart, stage }) => {
         <div className="text-8xl mb-6">💀</div>
         <h1 className="text-6xl font-bold text-slate-800 mb-6">Game Over</h1>
         <p className="text-2xl text-slate-600 mb-4 font-bold">
-          Diana has fallen in battle! ⚔️
+          Diana sofreu uma triste derrota!
         </p>
         <p className="text-xl text-slate-500 mb-8 bg-slate-100 rounded-full px-6 py-3 inline-block">
-          You reached stage {stage} before being defeated.
+          Você chegou até a fase {stage} antes de ser derrotado.
         </p>
         <button
           onClick={onRestart}
           className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
         >
-          🔄 Try Again
+          🔄 Tentar Novamente
         </button>
       </div>
     </div>

@@ -27,7 +27,7 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
         </span>
       </div>
 
-      <div className="relative w-full h-8 overflow-hidden">
+      <div className="relative w-32 h-8 overflow-hidden">
         <img
           src={getHPImage()}
           alt={`${character} HP Bar`}
