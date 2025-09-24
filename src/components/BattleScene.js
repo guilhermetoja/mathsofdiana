@@ -27,8 +27,8 @@ const BattleScene = ({
   isAnswered,
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 p-4">
-      <div className="text-center mb-6">
+    <div className="min-h-screen" style={{ backgroundColor: "#e7a41f" }}>
+      <div className="text-center p-16">
         <p className="text-slate-600 text-xl font-semibold">
           Estágio {enemy.stage || 1} - Lutando contra {enemy.name}
         </p>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import StartScreen from "./StartScreen";
+import IntroSequence from "./IntroSequence";
 import BattleScene from "./BattleScene";
 import GameOverScreen from "./GameOverScreen";
 import VictoryScreen from "./VictoryScreen";
@@ -12,7 +14,11 @@ const GameManager = () => {
   // Game state
   const [currentStage, setCurrentStage] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [gameState, setGameState] = useState("playing"); // 'playing', 'gameOver', 'victory'
+  const [gameState, setGameState] = useState("startScreen"); // 'startScreen', 'intro', 'playing', 'gameOver', 'victory'
+
+  // Question randomization state
+  const [randomizedQuestions, setRandomizedQuestions] = useState({});
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   // Character states
   const [dianaState, setDianaState] = useState({
@@ -29,19 +35,54 @@ const GameManager = () => {
     isTakingDamage: false,
   });
 
-  // Question state
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
 
-  // Get current question data
-  const currentQuestionData = questions[currentStage][currentQuestion];
-  const correctAnswerIndex = currentQuestionData.correct;
+  /**
+   * Shuffle array using Fisher-Yates algorithm
+   */
+  const shuffleArray = (array) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
 
   /**
-   * Handle answer selection
-   * @param {number} answerIndex - Index of selected answer
+   * Initialize randomized questions for a stage
    */
+  const initializeRandomizedQuestions = (stage) => {
+    const stageQuestions = questions[stage];
+    const indices = Array.from({ length: stageQuestions.length }, (_, i) => i);
+    const shuffledIndices = shuffleArray(indices);
+
+    setRandomizedQuestions((prev) => ({
+      ...prev,
+      [stage]: shuffledIndices,
+    }));
+    setCurrentQuestionIndex(0);
+  };
+
+  /**
+   * Get current question data with randomization
+   */
+  const getCurrentQuestionData = () => {
+    if (!randomizedQuestions[currentStage]) {
+      initializeRandomizedQuestions(currentStage);
+      return questions[currentStage][0]; // Fallback to first question
+    }
+
+    const questionIndex =
+      randomizedQuestions[currentStage][currentQuestionIndex];
+    return questions[currentStage][questionIndex];
+  };
+
+  const currentQuestionData = getCurrentQuestionData();
+  const correctAnswerIndex = currentQuestionData.correct;
+
   const handleAnswerSelect = (answerIndex) => {
     if (isAnswered) return;
 
@@ -123,6 +164,7 @@ const GameManager = () => {
   const checkEnemyDefeated = () => {
     if (enemyState.hp <= 1) {
       // Enemy defeated
+      dianaState.hp = dianaState.maxHp;
       if (currentStage < enemies.length - 1) {
         // Advance to next stage
         setTimeout(() => {
@@ -166,12 +208,15 @@ const GameManager = () => {
     const nextStage = currentStage + 1;
     setCurrentStage(nextStage);
     setCurrentQuestion(0);
+    setCurrentQuestionIndex(0);
     setEnemyState({
       ...enemies[nextStage],
       hp: enemies[nextStage].maxHp,
       isAttacking: false,
       isTakingDamage: false,
     });
+    // Initialize randomized questions for the new stage
+    initializeRandomizedQuestions(nextStage);
     resetQuestionState();
   };
 
@@ -179,8 +224,16 @@ const GameManager = () => {
    * Move to next question in current stage
    */
   const nextQuestion = () => {
-    if (currentQuestion < questions[currentStage].length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
+    const stageQuestions = questions[currentStage];
+    const currentRandomizedQuestions = randomizedQuestions[currentStage];
+
+    if (currentQuestionIndex < currentRandomizedQuestions.length - 1) {
+      // Move to next question in current randomized set
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      // All questions in current randomized set have been used
+      // Reshuffle and start from the beginning
+      initializeRandomizedQuestions(currentStage);
     }
     resetQuestionState();
   };
@@ -195,12 +248,28 @@ const GameManager = () => {
   };
 
   /**
+   * Handle start game button click
+   */
+  const handleStartGame = () => {
+    setGameState("intro");
+  };
+
+  /**
+   * Handle intro sequence completion
+   */
+  const handleIntroComplete = () => {
+    setGameState("playing");
+  };
+
+  /**
    * Restart the game
    */
   const restartGame = () => {
     setCurrentStage(0);
     setCurrentQuestion(0);
-    setGameState("playing");
+    setCurrentQuestionIndex(0);
+    setGameState("startScreen");
+    setRandomizedQuestions({});
     setDianaState({
       hp: diana.maxHp,
       maxHp: diana.maxHp,
@@ -217,6 +286,14 @@ const GameManager = () => {
   };
 
   // Render different screens based on game state
+  if (gameState === "startScreen") {
+    return <StartScreen onStartGame={handleStartGame} />;
+  }
+
+  if (gameState === "intro") {
+    return <IntroSequence onIntroComplete={handleIntroComplete} />;
+  }
+
   if (gameState === "gameOver") {
     return <GameOverScreen onRestart={restartGame} stage={currentStage + 1} />;
   }
