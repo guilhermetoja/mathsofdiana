@@ -28,7 +28,7 @@ const BattleScene = ({
 }) => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#e7a41f" }}>
-      <div className="text-center p-16">
+      <div className="text-center p-14">
         <p className="text-slate-600 text-xl font-semibold">
           Estágio {enemy.stage || 1} - Lutando contra {enemy.name}
         </p>
@@ -42,7 +42,7 @@ const BattleScene = ({
               enemy.stage || 1
             }.png')`,
             width: "100%",
-            height: "500px",
+            height: "450px",
             top: "-50px",
           }}
         ></div>
@@ -90,16 +90,16 @@ const BattleScene = ({
       </div>
 
       <div className="text-center mb-8">
-        <div className="bg-white backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-3xl shadow-lg border-2 border-slate-200">
+        <div className="bg-white backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-3xl shadow-lg border-4 border-slate-200 border-black ">
           <h2 className="text-3xl font-bold text-slate-700 mb-4">{question}</h2>
         </div>
       </div>
 
-      <div className="flex justify-center items-end space-x-1 max-w-6xl mx-auto">
+      <div className="flex justify-center items-end space-x-1 max-w-6xl mx-auto ">
         {answers.map((answer, index) => (
           <div
             key={index}
-            className="flex-shrink-0"
+            className="flex-shrink-0 "
             style={{
               transform: `rotate(${(index - 2) * 2}deg) translateY(${
                 Math.abs(index - 2) * 3

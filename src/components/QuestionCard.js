@@ -10,12 +10,12 @@ const QuestionCard = ({
 }) => {
   const getCardStyles = () => {
     let baseStyles =
-      "w-48 h-32 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-lg relative overflow-hidden ";
+      "w-48 h-32 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-lg relative overflow-hidden border-4 border-black ";
 
     if (isCorrect) {
       return (
         baseStyles +
-        "bg-gradient-to-br from-green-50 to-green-100 border-green-300 text-green-800 shadow-green-300 ring-2 ring-green-400"
+        "bg-gradient-to-br from-green-50 to-green-100 text-green-800 "
       );
     }
 
@@ -29,13 +29,13 @@ const QuestionCard = ({
     if (isSelected) {
       return (
         baseStyles +
-        "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 text-blue-800 shadow-blue-300 ring-2 ring-blue-400"
+        "bg-gradient-to-br from-blue-50 to-blue-100 border-blue-300 text-blue-800  "
       );
     }
 
     return (
       baseStyles +
-      "bg-gradient-to-br from-white to-slate-50 border-slate-200 text-slate-700 hover:border-blue-300 hover:shadow-blue-200 hover:from-blue-50 hover:to-blue-100"
+      "bg-gradient-to-br from-white to-slate-50 border-slate-200 text-slate-700"
     );
   };
 
