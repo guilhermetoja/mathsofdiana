@@ -22,16 +22,16 @@ const IntroSequence = ({ onIntroComplete }) => {
 
   return (
     <div
-      className={`fixed inset-0 bg-black z-50 flex items-center justify-center transition-opacity duration-1000 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-1000 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="text-center max-w-4xl mx-auto px-8">
-        <h2 className="text-4xl font-bold text-white mb-8 drop-shadow-lg">
+      <div className="text-center max-w-4xl mx-auto px-8 bg-white rounded-2xl border-4 border-black">
+        <h2 className="text-4xl font-bold text-black mb-8 drop-shadow-lg">
           Bem-vindo à Aventura Matemática!
         </h2>
 
-        <div className="text-lg text-gray-200 leading-relaxed space-y-4">
+        <div className="text-lg text-black leading-relaxed space-y-4">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
