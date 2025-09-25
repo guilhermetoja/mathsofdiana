@@ -33,11 +33,11 @@ const Character = ({
     <motion.div
       className={getCharacterStyles()}
       animate={{
-        x: isAttacking ? (isDiana ? 200 : -200) : 0,
+        x: isAttacking ? (isDiana ? 400 : -400) : 0,
         scale: isTakingDamage ? 1.1 : 1,
       }}
       transition={{
-        duration: 0.6,
+        duration: 0.4,
         ease: "easeInOut",
       }}
     >
