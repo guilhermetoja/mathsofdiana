@@ -3,31 +3,31 @@ export const enemies = [
     name: "Goblin",
     type: "goblin",
     stage: 1,
-    maxHp: 5,
+    maxHp: 2,
   },
   {
     name: "Esqueleto",
     type: "skeleton",
     stage: 2,
-    maxHp: 5,
+    maxHp: 2,
   },
   {
     name: "Mago das Trevas",
     type: "darkWizard",
     stage: 3,
-    maxHp: 5,
+    maxHp: 1,
   },
   {
-    name: "Dragão",
+    name: "Bebê Dragão",
     type: "dragon",
     stage: 4,
-    maxHp: 5,
+    maxHp: 1,
   },
   {
     name: "Cavaleiro das Trevas",
     type: "darkKnight",
     stage: 5,
-    maxHp: 5,
+    maxHp: 1,
   },
 ];
 

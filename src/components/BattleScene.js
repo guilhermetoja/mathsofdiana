@@ -27,31 +27,55 @@ const BattleScene = ({
   isAnswered,
 }) => {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#e7a41f" }}>
-      <div className="text-center p-14">
-        <p className="text-slate-600 text-xl font-semibold">
-          Estágio {enemy.stage || 1} - Lutando contra {enemy.name}
-        </p>
+    <div
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: `url('/images/battle-bg-stage-${
+          enemy.stage || 1
+        }.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        paddingTop: "4rem",
+      }}
+    >
+      <div className="text-center mb-8 relative z-20">
+        <div className="bg-white backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-3xl shadow-lg border-4 border-black">
+          <h2 className="text-3xl font-bold text-slate-700 mb-4">{question}</h2>
+        </div>
       </div>
 
-      <div className="flex justify-center items-center mb-8 px-4 max-w-3xl mx-auto relative gap-16">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100 "
-          style={{
-            backgroundImage: `url('/images/battle-bg-stage-${
-              enemy.stage || 1
-            }.png')`,
-            width: "100%",
-            height: "450px",
-            top: "-50px",
-          }}
-        ></div>
-
-        <div
-          className="flex flex-col items-center relative z-10"
-          style={{ marginTop: "170px" }}
-        >
-          <div className="relative ">
+      <div className="flex justify-center items-center space-x-1 max-w-6xl mx-auto mb-8 relative z-20">
+        {answers.map((answer, index) => (
+          <div key={index} className="flex-shrink-0">
+            <QuestionCard
+              answer={answer}
+              index={index}
+              onSelect={onAnswerSelect}
+              isSelected={selectedAnswer === index}
+              isCorrect={showFeedback && index === correctAnswer}
+              isWrong={
+                showFeedback &&
+                selectedAnswer === index &&
+                index !== correctAnswer
+              }
+            />
+          </div>
+        ))}
+      </div>
+      <div
+        className="flex justify-center items-end px-4 max-w-3xl mx-auto relative gap-64"
+        style={{
+          position: "absolute",
+          bottom: "9rem",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          maxWidth: "48rem",
+        }}
+      >
+        <div className="flex flex-col items-center relative z-10 gap-12">
+          <div className="relative">
             <HPBar
               currentHP={diana.hp}
               maxHP={diana.maxHp}
@@ -67,11 +91,8 @@ const BattleScene = ({
           />
         </div>
 
-        <div
-          className="flex flex-col items-center relative z-10"
-          style={{ marginTop: "170px" }}
-        >
-          <div className="relative ">
+        <div className="flex flex-col items-center relative z-10 gap-12">
+          <div className="relative">
             <HPBar
               currentHP={enemy.hp}
               maxHP={enemy.maxHp}
@@ -87,40 +108,6 @@ const BattleScene = ({
             enemyType={enemy.type}
           />
         </div>
-      </div>
-
-      <div className="text-center mb-8">
-        <div className="bg-white backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-3xl shadow-lg border-4 border-slate-200 border-black ">
-          <h2 className="text-3xl font-bold text-slate-700 mb-4">{question}</h2>
-        </div>
-      </div>
-
-      <div className="flex justify-center items-end space-x-1 max-w-6xl mx-auto ">
-        {answers.map((answer, index) => (
-          <div
-            key={index}
-            className="flex-shrink-0 "
-            style={{
-              transform: `rotate(${(index - 2) * 2}deg) translateY(${
-                Math.abs(index - 2) * 3
-              }px)`,
-              zIndex: selectedAnswer === index ? 10 : 5 - Math.abs(index - 2),
-            }}
-          >
-            <QuestionCard
-              answer={answer}
-              index={index}
-              onSelect={onAnswerSelect}
-              isSelected={selectedAnswer === index}
-              isCorrect={showFeedback && index === correctAnswer}
-              isWrong={
-                showFeedback &&
-                selectedAnswer === index &&
-                index !== correctAnswer
-              }
-            />
-          </div>
-        ))}
       </div>
     </div>
   );

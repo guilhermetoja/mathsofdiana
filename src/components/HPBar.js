@@ -13,8 +13,8 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
   };
 
   return (
-    <div className="w-full max-w-xs">
-      <div className="flex justify-between items-center mb-3">
+    <div className="w-full max-w-xs mx-auto flex flex-col items-center">
+      <div className="flex justify-between items-center mb-3 w-full">
         <span
           className={`font-bold text-xl ${textColor} bg-slate-100 px-3 py-1 rounded-full border border-slate-200`}
         >
@@ -27,11 +27,15 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
         </span>
       </div>
 
-      <div className="relative w-32 h-8 overflow-hidden">
+      <div className="relative w-40 h-10 rounded-2xl  ">
         <img
           src={getHPImage()}
           alt={`${character} HP Bar`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain rounded-xl"
+          style={{
+            transform: `scaleX(${Math.max(0, percentage) / 100})`,
+            transformOrigin: "left center",
+          }}
           onError={(e) => {
             e.target.style.display = "none";
             e.target.nextSibling.style.display = "block";
@@ -47,11 +51,6 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 animate-pulse"></div>
           </div>
         </div>
-
-        <div
-          className="absolute top-0 right-0 h-full bg-slate-800 transition-all duration-500 ease-out"
-          style={{ width: `${Math.max(0, 100 - percentage)}%` }}
-        ></div>
       </div>
     </div>
   );

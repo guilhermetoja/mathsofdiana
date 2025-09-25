@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 const Character = ({
@@ -11,7 +10,7 @@ const Character = ({
   const isDiana = type === "diana";
 
   const getCharacterStyles = () => {
-    return "w-28 h-36 flex items-center justify-center";
+    return "w-48 h-36 flex items-center justify-center";
   };
 
   const getCharacterImage = () => {
@@ -43,7 +42,13 @@ const Character = ({
       }}
     >
       <div className="text-center">
-        <div className="w-24 h-24 mb-2 mx-auto">
+        <div
+          className={`${
+            enemyType === "dragon" || enemyType === "darkKnight"
+              ? "w-80 h-80"
+              : "w-48   h-48"
+          } mb-2 mx-auto`}
+        >
           <img
             src={getCharacterImage()}
             alt={name}

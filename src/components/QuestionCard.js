@@ -10,7 +10,7 @@ const QuestionCard = ({
 }) => {
   const getCardStyles = () => {
     let baseStyles =
-      "w-48 h-32 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-lg relative overflow-hidden border-4 border-black ";
+      "w-48 h-32 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-lg relative overflow-hidden  border-black ";
 
     if (isCorrect) {
       return (
@@ -34,8 +34,7 @@ const QuestionCard = ({
     }
 
     return (
-      baseStyles +
-      "bg-gradient-to-br from-white to-slate-50 border-slate-200 text-slate-700"
+      baseStyles + "bg-gradient-to-br from-white to-slate-50 text-slate-700"
     );
   };
 
