@@ -98,6 +98,7 @@ const BattleScene = ({
               maxHP={enemy.maxHp}
               character={enemy.name}
               isDiana={false}
+              enemyType={enemy.type}
             />
           </div>
           <Character

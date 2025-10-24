@@ -1,6 +1,6 @@
 import React from "react";
 
-const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
+const HPBar = ({ currentHP, maxHP, character, isDiana = false, enemyType = null }) => {
   const percentage = (currentHP / maxHP) * 100;
   const barColor = isDiana ? "bg-blue-500" : "bg-red-500";
   const textColor = isDiana ? "text-blue-600" : "text-red-600";
@@ -16,9 +16,20 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
     if (isDiana) {
       return "/images/diana-nameplate.png";
     }
-    // Convert character name to lowercase for image filename
-    const characterName = character.toLowerCase();
-    return `/images/${characterName}-nameplate.png`;
+    // Use enemyType for image filename if available, otherwise fallback to character name
+    const imageName = (enemyType || character).toLowerCase();
+    return `/images/${imageName}-nameplate.png`;
+  };
+
+  const getNameplateSize = () => {
+    if (isDiana) {
+      return "h-8";
+    }
+    // Special sizing for darkwizard nameplate
+    if (enemyType && (enemyType.toLowerCase() === "darkwizard" || enemyType.toLowerCase() === "dragon" || enemyType.toLowerCase() === "darkknight")) {
+      return "h-32"; // Larger size for darkwizard
+    }
+    return "h-8"; // Default size for other enemies
   };
 
   return (
@@ -27,7 +38,7 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false }) => {
         <img
           src={getNameplateImage()}
           alt={`${character} nameplate`}
-          className="h-8 object-contain"
+          className={`${getNameplateSize()} object-contain`}
           onError={(e) => {
             // Fallback to text if image fails to load
             e.target.style.display = "none";
