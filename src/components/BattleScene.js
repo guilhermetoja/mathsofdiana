@@ -3,6 +3,12 @@ import Character from "./Character";
 import HPBar from "./HPBar";
 import QuestionCard from "./QuestionCard";
 
+// ============================================
+// DEBUG FEATURE - Remove this entire section before release
+// ============================================
+const DEBUG_MODE = true; // Set to false to disable, or remove this entire section
+// ============================================
+
 /**
  * BattleScene component displays the main battle area with characters and HP bars
  * @param {Object} diana - Diana's data (hp, maxHp, isAttacking, isTakingDamage)
@@ -26,9 +32,16 @@ const BattleScene = ({
   showFeedback,
   isAnswered,
 }) => {
+  // Debug feature: Click question to auto-answer correctly
+  const handleQuestionClick = () => {
+    if (DEBUG_MODE && !isAnswered) {
+      onAnswerSelect(correctAnswer);
+    }
+  };
+
   return (
     <div
-      className="min-h-screen relative"
+      className="min-h-screen relative flex flex-col"
       style={{
         backgroundImage: `url('/images/battle-bg-stage-${
           enemy.stage || 1
@@ -36,46 +49,48 @@ const BattleScene = ({
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        paddingTop: "4rem",
       }}
     >
-      <div className="text-center mb-8 relative z-20">
-        <div className="bg-white backdrop-blur-sm rounded-2xl p-8 mx-auto max-w-3xl shadow-lg border-4 border-black">
-          <h2 className="text-3xl font-bold text-slate-700 mb-4">{question}</h2>
+      {/* Question Section - Optimized for landscape */}
+      <div className="text-center mt-2 px-2 relative z-20 flex-shrink-0">
+        <div
+          className={`bg-white backdrop-blur-sm rounded-lg p-2 mx-auto max-w-5xl shadow-lg border-2 border-black ${
+            DEBUG_MODE && !isAnswered ? "cursor-pointer hover:opacity-80 transition-opacity" : ""
+          }`}
+          onClick={handleQuestionClick}
+          title={DEBUG_MODE && !isAnswered ? "Debug: Click to auto-answer correctly" : ""}
+        >
+          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-700">{question}</h2>
         </div>
       </div>
 
-      <div className="flex justify-center items-center space-x-1 max-w-6xl mx-auto mb-8 relative z-20">
-        {answers.map((answer, index) => (
-          <div key={index} className="flex-shrink-0">
-            <QuestionCard
-              answer={answer}
-              index={index}
-              onSelect={onAnswerSelect}
-              isSelected={selectedAnswer === index}
-              isCorrect={showFeedback && index === correctAnswer}
-              isWrong={
-                showFeedback &&
-                selectedAnswer === index &&
-                index !== correctAnswer
-              }
-            />
-          </div>
-        ))}
+      {/* Answer Cards - Always 4 in a row for landscape */}
+      <div className="flex justify-center items-center px-2 max-w-7xl mx-auto mt-2 mb-2 relative z-20 flex-shrink-0">
+        <div className="grid grid-cols-4 gap-2 w-full max-w-5xl">
+          {answers.map((answer, index) => (
+            <div key={index} className="flex justify-center">
+              <QuestionCard
+                answer={answer}
+                index={index}
+                onSelect={onAnswerSelect}
+                isSelected={selectedAnswer === index}
+                isCorrect={showFeedback && index === correctAnswer}
+                isWrong={
+                  showFeedback &&
+                  selectedAnswer === index &&
+                  index !== correctAnswer
+                }
+              />
+            </div>
+          ))}
+        </div>
       </div>
-      <div
-        className="flex justify-center items-end px-4 max-w-3xl mx-auto relative gap-64"
-        style={{
-          position: "absolute",
-          bottom: "9rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "100%",
-          maxWidth: "48rem",
-        }}
-      >
-        <div className="flex flex-col items-center relative z-10 gap-12">
-          <div className="relative">
+
+      {/* Characters Section - Optimized for landscape */}
+      <div className="flex-1 flex flex-row justify-center items-end px-2 pb-2 gap-4 sm:gap-8 md:gap-16 relative z-10 min-h-0 overflow-visible">
+        {/* Diana Section - Left side */}
+        <div className="flex flex-col items-center justify-end gap-1 sm:gap-2 md:gap-4 flex-1 max-w-[48%] flex-shrink-0">
+          <div className="relative w-full">
             <HPBar
               currentHP={diana.hp}
               maxHP={diana.maxHp}
@@ -83,16 +98,19 @@ const BattleScene = ({
               isDiana={true}
             />
           </div>
-          <Character
-            type="diana"
-            name="Diana"
-            isAttacking={diana.isAttacking}
-            isTakingDamage={diana.isTakingDamage}
-          />
+          <div className="relative w-full flex justify-center">
+            <Character
+              type="diana"
+              name="Diana"
+              isAttacking={diana.isAttacking}
+              isTakingDamage={diana.isTakingDamage}
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col items-center relative z-10 gap-12">
-          <div className="relative">
+        {/* Enemy Section - Right side */}
+        <div className="flex flex-col items-center justify-end gap-1 sm:gap-2 md:gap-4 flex-1 max-w-[48%] flex-shrink-0">
+          <div className="relative w-full">
             <HPBar
               currentHP={enemy.hp}
               maxHP={enemy.maxHp}
@@ -101,13 +119,15 @@ const BattleScene = ({
               enemyType={enemy.type}
             />
           </div>
-          <Character
-            type="enemy"
-            name={enemy.name}
-            isAttacking={enemy.isAttacking}
-            isTakingDamage={enemy.isTakingDamage}
-            enemyType={enemy.type}
-          />
+          <div className="relative w-full flex justify-center">
+            <Character
+              type="enemy"
+              name={enemy.name}
+              isAttacking={enemy.isAttacking}
+              isTakingDamage={enemy.isTakingDamage}
+              enemyType={enemy.type}
+            />
+          </div>
         </div>
       </div>
     </div>

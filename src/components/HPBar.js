@@ -23,18 +23,18 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false, enemyType = null 
 
   const getNameplateSize = () => {
     if (isDiana) {
-      return "h-8";
+      return "h-4 sm:h-5 md:h-8";
     }
     // Special sizing for darkwizard nameplate
     if (enemyType && (enemyType.toLowerCase() === "darkwizard" || enemyType.toLowerCase() === "dragon" || enemyType.toLowerCase() === "darkknight")) {
-      return "h-32"; // Larger size for darkwizard
+      return "h-6 sm:h-10 md:h-24 lg:h-32"; // Optimized for landscape
     }
-    return "h-8"; // Default size for other enemies
+    return "h-4 sm:h-5 md:h-8"; // Default size for other enemies
   };
 
   return (
-    <div className="w-full max-w-xs mx-auto flex flex-col items-center">
-      <div className="flex justify-center items-center mb-3 w-full">
+    <div className="w-full max-w-[140px] sm:max-w-[180px] md:max-w-xs mx-auto flex flex-col items-center">
+      <div className="flex justify-center items-center mb-0.5 sm:mb-1 md:mb-2 w-full">
         <img
           src={getNameplateImage()}
           alt={`${character} nameplate`}
@@ -50,11 +50,11 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false, enemyType = null 
         />
       </div>
 
-      <div className="relative w-40 h-10 rounded-2xl  ">
+      <div className="relative w-28 h-6 sm:w-32 sm:h-7 md:w-40 md:h-10 rounded-lg md:rounded-2xl">
         <img
           src={getHPImage()}
           alt={`${character} HP Bar`}
-          className="w-full h-full object-contain rounded-xl"
+          className="w-full h-full object-contain rounded-lg md:rounded-xl"
           style={{
             transform: `scaleX(${Math.max(0, percentage) / 100})`,
             transformOrigin: "left center",
@@ -65,7 +65,7 @@ const HPBar = ({ currentHP, maxHP, character, isDiana = false, enemyType = null 
           }}
         />
 
-        <div className="w-full bg-slate-200 rounded-full h-8 overflow-hidden shadow-inner border border-slate-300 hidden">
+        <div className="w-full bg-slate-200 rounded-full h-6 sm:h-7 md:h-8 overflow-hidden shadow-inner border border-slate-300 hidden">
           <div
             className={`h-full transition-all duration-500 ease-out ${barColor} rounded-full relative`}
             style={{ width: `${Math.max(0, percentage)}%` }}

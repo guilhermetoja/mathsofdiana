@@ -10,7 +10,7 @@ const QuestionCard = ({
 }) => {
   const getCardStyles = () => {
     let baseStyles =
-      "w-48 h-32 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-lg relative overflow-hidden  border-black ";
+      "w-full h-[60px] sm:h-[70px] md:h-[80px] rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer border-2 font-bold text-sm sm:text-base md:text-lg relative overflow-hidden border-black ";
 
     if (isCorrect) {
       return (
@@ -40,8 +40,8 @@ const QuestionCard = ({
 
   return (
     <div className={getCardStyles()} onClick={() => onSelect(index)}>
-      <div className="flex items-center justify-center h-full px-4">
-        <span className="font-bold text-center leading-tight text-lg">
+      <div className="flex items-center justify-center h-full px-2 sm:px-3 md:px-4 py-1 sm:py-2">
+        <span className="font-bold text-center leading-tight text-sm sm:text-base md:text-lg">
           {answer}
         </span>
       </div>
