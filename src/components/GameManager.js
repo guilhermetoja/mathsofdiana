@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import StartScreen from "./StartScreen";
 import IntroSequence from "./IntroSequence";
 import BattleScene from "./BattleScene";
 import GameOverScreen from "./GameOverScreen";
 import VictoryScreen from "./VictoryScreen";
+import EnemyDefeatedScreen from "./EnemyDefeatedScreen";
+import AudioController from "./AudioController";
 import { enemies, questions, diana } from "../data/gameData";
 
 /**
@@ -14,7 +16,13 @@ const GameManager = () => {
   // Game state
   const [currentStage, setCurrentStage] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [gameState, setGameState] = useState("startScreen"); // 'startScreen', 'intro', 'playing', 'gameOver', 'victory'
+  const [gameState, setGameState] = useState("startScreen"); // 'startScreen', 'intro', 'playing', 'enemyDefeated', 'gameOver', 'victory'
+  const [defeatedEnemyName, setDefeatedEnemyName] = useState("");
+
+  // Audio state
+  const audioRef = useRef(null);
+  const [volume, setVolume] = useState(0.5);
+  const [isMuted, setIsMuted] = useState(false);
 
   // Question randomization state
   const [randomizedQuestions, setRandomizedQuestions] = useState({});
@@ -159,28 +167,35 @@ const GameManager = () => {
   };
 
   /**
-   * Check if enemy is defeated and advance stage
+   * Check if enemy is defeated and show defeated screen
    */
   const checkEnemyDefeated = () => {
     if (enemyState.hp <= 1) {
-      // Enemy defeated
+      // Enemy defeated - show defeated screen
       dianaState.hp = dianaState.maxHp;
-      if (currentStage < enemies.length - 1) {
-        // Advance to next stage
-        setTimeout(() => {
-          advanceStage();
-        }, 1000);
-      } else {
-        // All stages completed - victory!
-        setTimeout(() => {
-          setGameState("victory");
-        }, 1000);
-      }
+      setDefeatedEnemyName(enemyState.name);
+      setTimeout(() => {
+        setGameState("enemyDefeated");
+      }, 1000);
     } else {
       // Enemy still alive - next question
       setTimeout(() => {
         nextQuestion();
       }, 1000);
+    }
+  };
+
+  /**
+   * Handle continue from enemy defeated screen
+   */
+  const handleEnemyDefeatedContinue = () => {
+    if (currentStage < enemies.length - 1) {
+      // Advance to next stage
+      advanceStage();
+      setGameState("playing");
+    } else {
+      // All stages completed - victory!
+      setGameState("victory");
     }
   };
 
@@ -254,6 +269,37 @@ const GameManager = () => {
     setGameState("intro");
   };
 
+  // Initialize and play background music when game starts
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio && gameState === "playing") {
+      audio.volume = volume;
+      audio.loop = true;
+      audio.play().catch((error) => {
+        console.log("Audio play failed:", error);
+      });
+    }
+  }, [gameState, volume]);
+
+  // Update volume when volume state changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = isMuted ? 0 : volume;
+    }
+  }, [volume, isMuted]);
+
+  // Handle volume change
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    setIsMuted(newVolume === 0);
+  };
+
+  // Handle mute toggle
+  const handleMuteToggle = () => {
+    setIsMuted(!isMuted);
+  };
+
   /**
    * Handle intro sequence completion
    */
@@ -270,6 +316,7 @@ const GameManager = () => {
     setCurrentQuestionIndex(0);
     setGameState("startScreen");
     setRandomizedQuestions({});
+    setDefeatedEnemyName("");
     setDianaState({
       hp: diana.maxHp,
       maxHp: diana.maxHp,
@@ -286,35 +333,50 @@ const GameManager = () => {
   };
 
   // Render different screens based on game state
-  if (gameState === "startScreen") {
-    return <StartScreen onStartGame={handleStartGame} />;
-  }
-
-  if (gameState === "intro") {
-    return <IntroSequence onIntroComplete={handleIntroComplete} />;
-  }
-
-  if (gameState === "gameOver") {
-    return <GameOverScreen onRestart={restartGame} stage={currentStage + 1} />;
-  }
-
-  if (gameState === "victory") {
-    return <VictoryScreen onRestart={restartGame} />;
-  }
-
-  // Main game screen
   return (
-    <BattleScene
-      diana={dianaState}
-      enemy={enemyState}
-      question={currentQuestionData.question}
-      answers={currentQuestionData.answers}
-      onAnswerSelect={handleAnswerSelect}
-      selectedAnswer={selectedAnswer}
-      correctAnswer={correctAnswerIndex}
-      showFeedback={showFeedback}
-      isAnswered={isAnswered}
-    />
+    <>
+      {/* Background music - persists across all game states */}
+      <audio ref={audioRef} src="/songs/battle_music.mp3" />
+
+      {/* Audio Controller - shown when music is available */}
+      {(gameState === "playing" || gameState === "enemyDefeated" || gameState === "victory") && (
+        <AudioController
+          volume={volume}
+          isMuted={isMuted}
+          onVolumeChange={handleVolumeChange}
+          onMuteToggle={handleMuteToggle}
+        />
+      )}
+
+      {gameState === "startScreen" && <StartScreen onStartGame={handleStartGame} />}
+
+      {gameState === "intro" && <IntroSequence onIntroComplete={handleIntroComplete} />}
+
+      {gameState === "gameOver" && <GameOverScreen onRestart={restartGame} stage={currentStage + 1} />}
+
+      {gameState === "victory" && <VictoryScreen onRestart={restartGame} />}
+
+      {gameState === "enemyDefeated" && (
+        <EnemyDefeatedScreen
+          enemyName={defeatedEnemyName}
+          onContinue={handleEnemyDefeatedContinue}
+        />
+      )}
+
+      {gameState === "playing" && (
+        <BattleScene
+          diana={dianaState}
+          enemy={enemyState}
+          question={currentQuestionData.question}
+          answers={currentQuestionData.answers}
+          onAnswerSelect={handleAnswerSelect}
+          selectedAnswer={selectedAnswer}
+          correctAnswer={correctAnswerIndex}
+          showFeedback={showFeedback}
+          isAnswered={isAnswered}
+        />
+      )}
+    </>
   );
 };
 
