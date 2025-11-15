@@ -360,6 +360,7 @@ const GameManager = () => {
         <EnemyDefeatedScreen
           enemyName={defeatedEnemyName}
           onContinue={handleEnemyDefeatedContinue}
+          currentStage={currentStage}
         />
       )}
 
