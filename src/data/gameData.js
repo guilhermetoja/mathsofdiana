@@ -179,3 +179,20 @@ export const diana = {
   maxHp: 5,
   initialHp: 5,
 };
+
+// Textos de transição da história
+export const storyTexts = {
+  prologue: "Esta é a história da grande aventura de Diana, uma heroína que, ao ser misteriosamente transportada para uma dimensão mágica, descobre que só poderá voltar para sua realidade se libertar o reino das forças sombrias do Cavaleiro Sombrio. Nesse novo mundo, ela percebe que sua maior arma não é uma espada, mas sim sua inteligência — especialmente sua habilidade de resolver problemas e cálculos num piscar de olhos.",
+  
+  battle1: "No início de sua jornada, Diana encontra um goblin travesso bloqueando a passagem na floresta. A criatura a desafia com enigmas e problemas numéricos, e Diana percebe que o único jeito de avançar é usando o raciocínio lógico. Após fazer os cálculos certos e superar o desafio, ela segue em direção ao castelo.",
+  
+  battle2: "Deixando a floresta para trás, Diana se aproxima mais de seu objetivo. Porém, ao atravessar um antigo cemitério, um esqueleto surge para impedi-la. Com passos ritmados e padrões estranhos, ele tenta confundi-la. Diana observa cuidadosamente e percebe que tudo segue uma ordem matemática — e, ao descobrir o padrão certo, ela derrota o guardião do cemitério.",
+  
+  battle3: "Ao vencer o esqueleto, Diana encontra a entrada de uma masmorra sombria e decide explorá-la. No fundo, um poderoso Mago das Trevas a espera, lançando feitiços que exigem rapidez de cálculo e precisão. Diana, com calma, resolve suas equações e quebra as ilusões do mago, derrotando-o com inteligência.",
+  
+  battle4: "Ao sair da masmorra, Diana lembra das filhas e sente o coração se encher de determinação. Rumo ao castelo, ela precisa atravessar um vulcão ativo. Lá, um gigantesco Dragão de Fogo a desafia, cuspindo labaredas ritmadas como uma sequência numérica perigosa. Observando o intervalo dos ataques e resolvendo mentalmente o \"padrão do fogo\", Diana encontra a brecha perfeita e derrota o inimigo mais forte até então.",
+  
+  battle5: "Após passar pelo vulcão, Diana avança corajosamente para dentro do castelo e arromba a porta da sala do trono. Ali, enfrenta o maior vilão do reino. O Cavaleiro Sombrio tenta enganá-la com ilusões, números falsos e problemas cada vez mais difíceis, mas Diana não se intimida. Com raciocínio afiado e coragem inabalável, ela resolve cada desafio matemático, vence a batalha e liberta o reino da escuridão.",
+  
+  final: "Exausta após a batalha final, Diana desmaia. Quando abre os olhos, está de volta à sua casa. Ela se pergunta se tudo não teria sido apenas um sonho… mas ao olhar para suas mãos, ainda sente o leve calor de ter vencido o vulcão. E sorri. Afinal, seja em um mundo mágico ou na vida real, a matemática continua sendo sua maior aliada."
+};
