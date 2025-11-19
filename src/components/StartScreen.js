@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const StartScreen = ({ onStartGame }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showTeacherContent, setShowTeacherContent] = useState(false);
+  const [isCreditsModalOpen, setIsCreditsModalOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -16,6 +17,14 @@ const StartScreen = ({ onStartGame }) => {
 
   const handleTeacherConfirm = () => {
     setShowTeacherContent(true);
+  };
+
+  const openCreditsModal = () => {
+    setIsCreditsModalOpen(true);
+  };
+
+  const closeCreditsModal = () => {
+    setIsCreditsModalOpen(false);
   };
 
   return (
@@ -67,6 +76,14 @@ const StartScreen = ({ onStartGame }) => {
         className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 bg-white bg-opacity-90 hover:bg-opacity-100 text-black font-bold py-2 px-4 sm:py-2.5 sm:px-5 rounded-full text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out"
       >
         Para os professores
+      </button>
+
+      {/* Botão Créditos - Canto inferior esquerdo */}
+      <button
+        onClick={openCreditsModal}
+        className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 bg-white bg-opacity-90 hover:bg-opacity-100 text-black font-bold py-2 px-4 sm:py-2.5 sm:px-5 rounded-full text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out"
+      >
+        Créditos
       </button>
 
       {/* Modal */}
@@ -289,6 +306,76 @@ const StartScreen = ({ onStartGame }) => {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Créditos */}
+      {isCreditsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+          <div className="bg-white rounded-xl md:rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="relative">
+              {/* Botão X fixo no topo durante scroll */}
+              <div className="sticky top-0 z-10 bg-white pb-2 pt-6 px-6 sm:px-8 md:px-10">
+                <div className="flex justify-end">
+                  <button
+                    onClick={closeCreditsModal}
+                    className="bg-white rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 text-2xl sm:text-3xl font-bold shadow-lg transition-all duration-200"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+              <div className="p-6 sm:p-8 md:p-10 pt-0">
+                <div className="prose prose-lg max-w-none text-gray-700">
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-6">CRÉDITOS</h1>
+                  <hr className="my-6 border-gray-300" />
+
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mt-6 mb-4">A EQUIPE QUE FEZ ACONTECER</h2>
+                  <p className="mb-4">
+                    Nenhum grande feito nasce sozinho. Este projeto é a prova viva de que a união, o talento e a determinação podem transformar ideias em realidade extraordinária.
+                  </p>
+                  <p className="mb-2"><strong>À minha equipe imbatível:</strong></p>
+                  <p className="mb-6"><strong>Toja, João Vitor, Vitor, Estiverson, Natã e Ricardo</strong></p>
+
+                  <hr className="my-6 border-gray-300" />
+
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mt-6 mb-4">MENÇÕES ESPECIAIS</h2>
+                  
+                  <p className="mb-4">
+                    <strong>Vitória</strong> (copatriota de FATEC, lá do 1º MKT) – Sua sensibilidade estética trouxe vida e harmonia ao projeto. Obrigado por transformar o visual em algo que realmente encanta.
+                  </p>
+
+                  <p className="mb-4">
+                    <strong>José Miguel</strong> – Melhor amigo e nosso testador oficial. Suas críticas honestas e seu olhar atento foram essenciais para lapidar cada detalhe do jogo.
+                  </p>
+
+                  <p className="mb-4">
+                    <strong>Leonardo</strong> – O melhor chefe que alguém poderia ter. Obrigado por clarear as dúvidas técnicas mais complexas e por acreditar no potencial deste projeto desde o início.
+                  </p>
+
+                  <p className="mb-6">
+                    <strong>Ao Café</strong> – Herói silencioso, companheiro fiel das madrugadas infinitas e das manhãs impossíveis. Sem você, este projeto ainda estaria na fase de planejamento. Você é o verdadeiro MVP (Most Valuable Pour).
+                  </p>
+
+                  <hr className="my-6 border-gray-300" />
+
+                  <p className="mb-4">
+                    Este projeto não é apenas nosso trabalho. É nossa história.
+                  </p>
+
+                  <p className="mb-4">
+                    A todos que fizeram parte desta jornada: <strong>MUITO OBRIGADO</strong>.
+                  </p>
+
+                  <hr className="my-6 border-gray-300" />
+
+                  <p className="text-center text-lg sm:text-xl font-bold text-gray-800 mb-6">
+                    <strong>FIM</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
