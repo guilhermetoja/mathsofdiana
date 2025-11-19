@@ -21,6 +21,7 @@ const GameManager = () => {
 
   // Audio state
   const audioRef = useRef(null);
+  const hurtSoundRef = useRef(null);
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
 
@@ -127,6 +128,14 @@ const GameManager = () => {
           isTakingDamage: true,
         };
       });
+
+      // Play hurt sound
+      if (hurtSoundRef.current) {
+        hurtSoundRef.current.currentTime = 0;
+        hurtSoundRef.current.play().catch((error) => {
+          console.log("Hurt sound play failed:", error);
+        });
+      }
 
       // Reset attack animation
       setDianaState((prev) => ({ ...prev, isAttacking: false }));
@@ -337,6 +346,9 @@ const GameManager = () => {
     <>
       {/* Background music - persists across all game states */}
       <audio ref={audioRef} src="/songs/battle_music.mp3" />
+      
+      {/* Hurt sound - plays when enemy takes damage */}
+      <audio ref={hurtSoundRef} src="/songs/hurt4.mp3" />
 
       {/* Audio Controller - shown when music is available */}
       {(gameState === "playing" || gameState === "enemyDefeated" || gameState === "victory") && (
