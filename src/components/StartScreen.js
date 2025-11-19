@@ -7,9 +7,13 @@ const StartScreen = ({ onStartGame }) => {
     >
       <div className="text-center space-y-4 sm:space-y-6 md:space-y-8 p-6 sm:p-7 md:p-8 border-2 md:border-4 bg-white rounded-xl md:rounded-2xl w-full max-w-lg mx-auto">
         <div className="space-y-2 sm:space-y-3 md:space-y-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-2 sm:mb-3 md:mb-4 drop-shadow-lg">
-            Maths of Diana
-          </h1>
+          <div className="flex justify-center mb-2 sm:mb-3 md:mb-4">
+            <img 
+              src="/images/mathsofdiana_title.png" 
+              alt="Maths of Diana" 
+              className="max-w-full h-auto w-full max-w-md sm:max-w-lg md:max-w-xl"
+            />
+          </div>
           <div className="w-24 sm:w-28 md:w-32 h-1 mx-auto rounded-full"></div>
         </div>
 
