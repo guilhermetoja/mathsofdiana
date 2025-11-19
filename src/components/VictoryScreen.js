@@ -59,7 +59,7 @@ const VictoryScreen = ({ onRestart }) => {
               onClick={onRestart}
               className="bg-black text-white font-bold py-3 px-6 sm:py-3.5 sm:px-7 md:py-4 md:px-8 rounded-full text-base sm:text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
-              Muito obrigado por jogar!
+              Jogar novamente!
             </button>
           </div>
         </div>
