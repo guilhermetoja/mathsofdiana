@@ -3,12 +3,6 @@ import Character from "./Character";
 import HPBar from "./HPBar";
 import QuestionCard from "./QuestionCard";
 
-// ============================================
-// DEBUG FEATURE - Remove this entire section before release
-// ============================================
-const DEBUG_MODE = true; // Set to false to disable, or remove this entire section
-// ============================================
-
 /**
  * BattleScene component displays the main battle area with characters and HP bars
  * @param {Object} diana - Diana's data (hp, maxHp, isAttacking, isTakingDamage)
@@ -32,12 +26,6 @@ const BattleScene = ({
   showFeedback,
   isAnswered,
 }) => {
-  // Debug feature: Click question to auto-answer correctly
-  const handleQuestionClick = () => {
-    if (DEBUG_MODE && !isAnswered) {
-      onAnswerSelect(correctAnswer);
-    }
-  };
 
   return (
     <div
@@ -53,14 +41,8 @@ const BattleScene = ({
     >
       {/* Question Section - Optimized for landscape */}
       <div className="text-center mt-2 px-2 relative z-20 flex-shrink-0">
-        <div
-          className={`bg-white backdrop-blur-sm rounded-lg p-2 mx-auto max-w-5xl shadow-lg border-2 border-black ${
-            DEBUG_MODE && !isAnswered ? "cursor-pointer hover:opacity-80 transition-opacity" : ""
-          }`}
-          onClick={handleQuestionClick}
-          title={DEBUG_MODE && !isAnswered ? "Debug: Click to auto-answer correctly" : ""}
-        >
-          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-700">{question}</h2>
+        <div className="bg-white backdrop-blur-sm rounded-lg p-2 mx-auto max-w-5xl shadow-lg border-2 border-black">
+          <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-slate-700 whitespace-pre-line">{question}</h2>
         </div>
       </div>
 
